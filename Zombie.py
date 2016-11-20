@@ -47,6 +47,9 @@ class zombie:
     def get_state(self):
         return self.state
 
+    def get_xy(self):
+        return self.x,self.y
+
 
     def draw(self):
         self.image.clip_draw(self.frame * 40, self.state * 40, 40, 40, self.x, self.y)

@@ -48,7 +48,7 @@ class ninza:
         self.y+=(self.dirY*distance)
 
         self.x = clamp(0, self.x, 1000)
-        print(self.frame)
+
 
     def set_dirY(self,n):
         if n==1:

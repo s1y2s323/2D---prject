@@ -11,36 +11,33 @@ from Castle import Castle
 from Select import Select
 from Zombie import zombie
 from Ninza import ninza
-from Bomb import bomb
 from Cannon import cannon
+
 import time
 
 
-
+n1=0
+n2=0
 name = "collision"
 
-pX2=0
-pY2=0
-pX3=0
-pY3=0
+
 
 def create_world():
-    global boy,castle,select,boy2,boy3,bom,can
+    global boy,castle,select,boy2,boy3
+    global daepo
 
-    pX2=None
-    pY2=None
-    pX3=None
-    pY3=None
+
     boy=[]
     boy2=[]
     boy3=[]
     castle=Castle()
     select=Select()
-    bom=bomb()
-    can=cannon()
+    daepo=cannon()
+
 
 def destroy_world():
     global boy,castle,select,boy2,boy3,bom
+    global daepo
     for Knight in boy:
         del(Knight)
     for Zombie in boy2:
@@ -50,8 +47,9 @@ def destroy_world():
 
     del(castle)
     del(select)
-    del(bom)
-    del(can)
+    del (daepo)
+
+
 
 
 
@@ -122,24 +120,26 @@ def createobject():
 
 
 def update(frame_time):
-    global pX2, pY2, pX3, pY3
+    global n1,n2
+
     for Knight in boy:
         Knight.update(frame_time)
     for Zombie in boy2:
         Zombie.update(frame_time)
     for Ninza in boy3:
         Ninza.update(frame_time)
-    for boys2 in boy2:
-        if boys2.x <1000 and boys2.x>500:
-            pX3=boys2.x
-            pY3=boys2.y
-            pX2=(pX3+50)/2
-            pY2=300
-            bom.update(frame_time, pX2, pY2, pX3, pY3)
+
+    for Zombie in boy2:
+        daepo.set_state(daepo.NORMAL, None)
+        if Zombie.x<800 and Zombie.x>200:
+            daepo.set_state(daepo.ATTACK,None)
+            daepo.set_point(Zombie.get_xy() )
             break
+        
 
-
-
+    daepo.update(frame_time)
+    print(daepo.t)
+    print(daepo.state)
 
 
     #bom.update(frame_time)
@@ -194,17 +194,13 @@ def draw(frame_time):
         Ninza.draw()
         Ninza.draw_bb()
 
-    can.draw()
-    can.draw_bb()
-    bom.draw()
-    bom.draw_bb()
+
     castle.draw()
     castle.draw_bb()
     select.draw()
     select.draw_bb()
-
-
-
+    daepo.draw()
+    daepo.draw_bb()
 
 
     update_canvas()

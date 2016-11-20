@@ -1,24 +1,28 @@
 import game_framework
 from pico2d import *
 import collision
-import upgrade
-import start_state
+from userinfo import user
+import main
 
 
 
-name = "MainState"
-image = None
+name = "upgradeState"
+upgrade = None
+select=None
 
 
 def enter():
-    global image
+    global upgrade,select
+    global userlist
+    userlist=user()
     open_canvas(400,600)
-    image=load_image('mainimage.png')
+    upgrade=load_image('upgrade.png')
+    select=load_image('upgradeselect.png')
 
 
 def exit():
-    global image
-    del(image)
+    global upgrade,select
+    del(upgrade,select)
     close_canvas()
 
 
@@ -37,21 +41,13 @@ def handle_events(frame_time):
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
             elif (event.type, event.button) == (SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT):
-                if event.x > 125 and event.x <275:
-                    if 599-event.y > 280 and 599-event.y < 360: #플레이
-                        game_framework.change_state(collision)
-                    elif 599-event.y > 150 and  599-event.y < 230: #옵션설정
+                if event.x > 0 and event.x <100:
+                    if 599-event.y > 350 and 599-event.y < 450: #플레이
+                        userlist.knight[userlist.HP]=50
+                        print( userlist.knight[userlist.HP])
+                    elif 599-event.y > 250 and  599-event.y < 350: #옵션설정
                         pass
-                    elif  599-event.y > 70 and  599-event.y < 150:
-                        pass
-                if event.x > 350 and event.x < 400:
-                    if  599-event.y > 30 and  599-event.y < 80:
-                        pass
-                    elif  599-event.y > 100 and  599-event.y <160:
-                        pass
-                    elif  599-event.y > 175 and  599-event.y< 225: #상점
-                        game_framework.change_state(upgrade)
-                        pass
+
 
 
 
@@ -67,7 +63,8 @@ def draw_bb():
 
 def draw(frame_time):
     clear_canvas()
-    image.draw(200,300)
+    upgrade.clip_draw(0, 0, 200, 50, 200, 550)
+    select.clip_draw(0, 0, 100, 400, 50, 250)
     draw_bb()
     update_canvas()
 

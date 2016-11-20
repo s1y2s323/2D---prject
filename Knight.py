@@ -48,7 +48,7 @@ class knight:
         self.y+=(self.dirY*distance)
 
         self.x = clamp(0, self.x, 1000)
-        print(self.frame)
+
 
 
     def draw(self):
