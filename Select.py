@@ -3,14 +3,18 @@ from pico2d import *
 
 class Select:
     image = None
+
     def __init__(self):
         self.x, self.y = 100, 550
         self.type=5
         if Select.image == None:
             Select.image = load_image('Select.png')
 
+
     def draw(self):
+
         self.image.clip_draw(0, 0, 200, 100, self.x, self.y)
+
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())

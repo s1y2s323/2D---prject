@@ -12,17 +12,18 @@ select=None
 
 
 def enter():
-    global upgrade,select
+    global item,back
     global userlist
     userlist=user()
-    open_canvas(400,600)
-    upgrade=load_image('upgrade.png')
-    select=load_image('upgradeselect.png')
+    open_canvas(600,800)
+    item=load_image('item.png')
+    back=load_image('itemback.png')
+    #select=load_image('upgradeselect.png')
 
 
 def exit():
-    global upgrade,select
-    del(upgrade,select)
+    global item,back
+    del(item)
     close_canvas()
 
 
@@ -39,8 +40,11 @@ def handle_events(frame_time):
             game_framework.quit()
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-                game_framework.quit()
+                game_framework.change_state(main)
+
             elif (event.type, event.button) == (SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT):
+                if(selecting(event.x,event.y,25)):
+                    pass
                 if event.x > 0 and event.x <100:
                     if 599-event.y > 350 and 599-event.y < 450: #플레이
                         userlist.knight[userlist.HP]=50
@@ -50,22 +54,26 @@ def handle_events(frame_time):
 
 
 
-
-
-
-
-
 def draw_bb():
     for i in range(10):
         for j in range(12):
             draw_rectangle(i*50,j*50,(i+1)*50,(j+1)*50)
 
 
+def selecting(x,y,size):
+    if x> x-size and x < x+size and 799-y > y-size and 799-y < y+size:
+        return True
+    else:
+        return False
+
+
 def draw(frame_time):
     clear_canvas()
-    upgrade.clip_draw(0, 0, 200, 50, 200, 550)
-    select.clip_draw(0, 0, 100, 400, 50, 250)
-    draw_bb()
+    back.clip_draw(0, 0, 600, 800, 300, 400)
+    item.clip_draw(0, 0, 600, 800, 300, 400)
+
+    #select.clip_draw(0, 0, 100, 400, 50, 250)
+   # draw_bb()
     update_canvas()
 
 def update(frame_time):

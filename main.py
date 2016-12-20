@@ -68,7 +68,7 @@ def draw_bb():
 def draw(frame_time):
     clear_canvas()
     image.draw(200,300)
-    draw_bb()
+    #draw_bb()
     update_canvas()
 
 def update(frame_time):

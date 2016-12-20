@@ -11,9 +11,10 @@ class zombie:
 
     TIME_PER_ACTION = 0.5
     ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-    FRAMES_PER_ACTION = 10
+    FRAMES_PER_ACTION = 5
 
     image = None
+    imagehp = None
 
     DEAD, LEFT_ATTACK, LEFT_RUN= 0, 1, 2
 
@@ -30,6 +31,8 @@ class zombie:
 
         if zombie.image == None:
             zombie.image = load_image('zombie.png')
+        if zombie.imagehp == None:
+            zombie.imagehp = load_image('hpimage.png')
 
 
     def update(self, frame_time):
@@ -53,6 +56,8 @@ class zombie:
 
     def draw(self):
         self.image.clip_draw(self.frame * 40, self.state * 40, 40, 40, self.x, self.y)
+        self.imagehp.clip_draw(0, 0, int((40*self.hp)/100), 10, self.x, self.y + 25)
+
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
@@ -63,6 +68,9 @@ class zombie:
             self.dirX = 0
             if (self.frame == 7):
                 y.hp -= 1
+
+
+
         elif x == self.LEFT_RUN:
             self.state = self.LEFT_RUN
             self.dirX = -1
